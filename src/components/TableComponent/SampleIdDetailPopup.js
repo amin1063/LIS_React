@@ -70,9 +70,10 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
         data = filterby.filter((item, i) => item.MRN == editValue.MRN)
       }else{
 
-        data = filterby.filter((item, i) => item.SampleID == editValue.SampleID)
+        data = filterby.filter((item, i) => item.SampleID == editValue.SampleId)
 
       }
+      
       setDetailsList(data)
       setLoading(false)
     }
