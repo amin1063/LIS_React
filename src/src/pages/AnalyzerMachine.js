@@ -27,7 +27,7 @@ const AnalyzerMachine = () => {
     const analyzerLists =  useSelector((state) => state.servicesReducer.analyzerLists);
 
     const handleSearch = () => {
-        console.log("Search Analyzer");
+        console.log("pppp");
     };
 
     useEffect(() => {

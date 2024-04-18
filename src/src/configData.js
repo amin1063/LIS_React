@@ -129,7 +129,7 @@ export const cptsTableHeadings = [
 export const liscodesTableHeadings = [
   { id: 'id', label: 'Sr.No' },
   { id: 'Name', label: 'Name' },
-  { id: 'Type', label: 'Type' },
+  { id: 'type', label: 'Type' },
   { id: 'Desc', label: 'Description' },
   { id: 'IsActive', label: 'IsActive' },
   // { id: 'createdOn', label: 'CreatedOn' },

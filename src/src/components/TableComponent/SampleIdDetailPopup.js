@@ -21,10 +21,10 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
     {label:'Received',value:'Received'},
     {label:'Collected',value:'Collected'},
     {label:'Order',value:'Order'},
-    {label:'OrderDetail ID',value:'OrderDetailId'},
+    // {label:'OrderDetail ID',value:'OrderDetailId'},
     {label:'Sent',value:'Sent'},
     {label:'Sample ID',value:'SampleId'},
-    {label:'CPT Name',value:'CPTName'},
+    // {label:'CPT Name',value:'CPTName'},
   ]
   const dateArray = ['Received','Collected','CreatedOn','UpdatedOn','Order']
 
@@ -68,11 +68,12 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
       let data;
       if( sampleFilterId == 'MRN'){
         data = filterby.filter((item, i) => item.MRN == editValue.MRN)
-      }else if(url == "PathologyResultMaster"){
-        data = filterby.filter((item, i) => item.PathologyResultMasterId== editValue.Id)
       }else{
+
         data = filterby.filter((item, i) => item.SampleID == editValue.SampleId)
+
       }
+      
       setDetailsList(data)
       setLoading(false)
     }
@@ -81,6 +82,9 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
   const Close = () => {
     setOpenDetailsModal(false)
   }
+
+  console.log('orderDetailsList',orderDetailsList)
+  console.log('editValue',editValue)
 
   return (
     <>
