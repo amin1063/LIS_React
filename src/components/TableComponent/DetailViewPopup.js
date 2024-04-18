@@ -18,6 +18,7 @@ const DetailViewPopup = ({ detailsModalValue, editDataValue }) => {
     useEffect(() => {
         setDataKeys(Object.keys(editValue))
     }, [editValue])
+    console.log(editValue);
 
     const Close = () => {
         setOpenDetailsModal(false)
@@ -41,9 +42,13 @@ const DetailViewPopup = ({ detailsModalValue, editDataValue }) => {
                         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'justify', padding: '0 20px', mt: 2 }}>
                             <Box >
                                 {dataKeys?.map((item, i) => (
-                                    <Stack key={i} direction={'row'} gap={1} sx={{ textAlign: 'justify', paddingBottom: '8px' }}>
-                                        <Typography sx={{ fontSize: '17px', fontWeight: 'bold', color: '#666' }}>{upperCase(item)}</Typography> : <Typography sx={{ fontSize: '17px', color: '#444' }}>{editValue[item] || '-'}</Typography>
-                                    </Stack>
+                                  <Stack key={i} direction={'row'} gap={1} sx={{ textAlign: 'justify', paddingBottom: '8px' }}>
+                                  {item == "IsSent" ?
+                                  <><Typography sx={{ fontSize: '17px', fontWeight: 'bold', color: '#666' }}>{upperCase(item)}</Typography> : <Typography sx={{ fontSize: '17px', color: '#444' }}>{editValue[item] == true ? "true":"false" || '-'}</Typography>
+                                  </> : item == "Id" ? null :
+                                  <><Typography sx={{ fontSize: '17px', fontWeight: 'bold', color: '#666' }}>{upperCase(item)}</Typography> : <Typography sx={{ fontSize: '17px', color: '#444' }}>{editValue[item] || '-'}</Typography></>
+                              }
+                              </Stack>
                                 ))}
                             </Box>
                         </Box>

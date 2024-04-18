@@ -21,10 +21,10 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
     {label:'Received',value:'Received'},
     {label:'Collected',value:'Collected'},
     {label:'Order',value:'Order'},
-    {label:'OrderDetail ID',value:'OrderDetailId'},
-    {label:'Sent',value:'Sent'},
+    // {label:'OrderDetail ID',value:'OrderDetailId'},
+    {label:'Sent',value:'IsSent'},
     {label:'Sample ID',value:'SampleId'},
-    {label:'CPT Name',value:'CPTName'},
+    // {label:'CPT Name',value:'CPTName'},
   ]
   const dateArray = ['Received','Collected','CreatedOn','UpdatedOn','Order']
 
