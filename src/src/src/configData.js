@@ -129,7 +129,7 @@ export const cptsTableHeadings = [
 export const liscodesTableHeadings = [
   { id: 'id', label: 'Sr.No' },
   { id: 'Name', label: 'Name' },
-  { id: 'Type', label: 'Type' },
+  { id: 'type', label: 'Type' },
   { id: 'Desc', label: 'Description' },
   { id: 'IsActive', label: 'IsActive' },
   // { id: 'createdOn', label: 'CreatedOn' },
@@ -403,8 +403,8 @@ export const HisAnalyzerTableHeadings  = [
 
 export const SampleDetailsTableHeadings  = [
   // { id: 'id', label: 'Sr.No' },
-  { id: 'TestID', label: 'Test ID' },
-  { id: 'TestName', label: 'Test Name' },
+  { id: 'LisId', label: 'Test ID' },
+  { id: 'LISCodeName', label: 'Test Name' },
   { id: 'HostCode', label: 'Host Code' },
   { id: 'Result', label: 'Result' },
   { id: 'History', label: 'History' },
