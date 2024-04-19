@@ -166,7 +166,7 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                                   return (
                                     <TableCell key={column.id} sx={{fontWeight: checkAbnormalValue(row?.AbnormalFlag) ? 'bold':'normal'}} >
                                     {/* <TableCell key={column.id} sx={{fontWeight: ["A","H~A"].includes(row?.AbnormalFlag) ? 'bold':'normal'}} > */}
-                                      {value || 'null'}
+                                      {value || '-'}
                                     </TableCell>
                                   );
                                 }
