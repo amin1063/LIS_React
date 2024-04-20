@@ -19,6 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import SelectFieldComponent from '../SelectFieldComponent';
 import TestOrderDialog from './TestOrderDialog';
+import { ERROR_ALERT } from '../../redux/ActionTypes';
 
 
 const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesList, analyzersList, cptList, hisList, rerender, readable, showColor, analyzerDropDown }) => {
@@ -51,7 +52,9 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
     const [searchMenuOptions, setSearchMenuOptions] = useState([])
     const dateArray = ['Received', 'Collected', 'CreatedOn', 'UpdatedOn', 'Order'];
     const [analyzerMenuOptions, setAnalyzerMenuOptions] = useState([]);
+    const [hisMenuOptions, setHisMenuOptions] = useState([]);
     const [selectedAnalyzer, setSelectedAnalyzer] = useState('')
+    const [selectedHis, setSelectedHis] = useState('')
     const [openTestOrderModal, setOpenTestOrderModal] = useState(false)
 
     const handleClick = (event, selectedId) => {
@@ -82,7 +85,6 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
         setOpen(false);
         setOpenSelectField(false);
     };
-
 
     useEffect(() => {
         if (!analyzerDropDown) {
@@ -194,16 +196,58 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
             })
             setAnalyzerMenuOptions(data)
         }
+        if (hisList?.length) {
+            let data = []
+            hisList && hisList?.map((item, i) => {
+                data.push({ label: item?.Name, value: item.ID })
+            })
+            setHisMenuOptions(data)
+        }
     }, [analyzersList, LisCodesList, hisList])
 
     useEffect(() => {
-        if (selectedAnalyzer?.length) {
-            let filterData = data?.filter((item, i) => item?.AnalyzerName == selectedAnalyzer)
-            setTableData(filterData)
-        }else{
-            setTableData([])
+        if (selectedHis?.length && selectedAnalyzer?.length) {
+            let filterData = data?.filter((item, i) => item?.HisName === selectedHis && item?.AnalyzerName === selectedAnalyzer);
+            setTableData(filterData);
+        } else if (selectedHis?.length) {
+            let filterData = data?.filter((item, i) => item?.HisName === selectedHis);
+            let newMenuOptions = [];
+            analyzersList && analyzersList?.forEach((item, i) => {
+                filterData.forEach((filteredItem) => {
+                    if (filteredItem.AnalyzerName === item.Name) {
+                        if (!newMenuOptions.some(option => option.label === item.Name)) {
+                            newMenuOptions.push({ label: item.Name, value: item.ID });
+                        }
+                    }
+                });
+            });
+            setAnalyzerMenuOptions(newMenuOptions);
+            setTableData(filterData);
+        } else if (selectedAnalyzer?.length) {
+            let filterData = data?.filter((item, i) => item?.AnalyzerName === selectedAnalyzer);
+            setTableData(filterData);
+        } else {
+            let data = [];
+            analyzersList && analyzersList?.map((item, i) => {
+                data.push({ label: item?.Name, value: item.ID });
+            });
+            setAnalyzerMenuOptions(data);
+            setTableData([]);
         }
-    }, [selectedAnalyzer])
+        
+    }, [selectedAnalyzer,selectedHis])
+
+    const handleAddHIS =()=>{
+        if (selectedAnalyzer?.length && selectedHis?.length){
+            setOpenHisModal(true)
+        }else{
+            dispatch({
+                type: ERROR_ALERT,
+                payload: "Please select His and Analyzer first. ",
+              });
+        }
+
+    }
 
     return (
         <>
@@ -251,6 +295,8 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
                 tableHeadings={tableHeadings}
                 analyzersList={analyzersList}
                 hisList={hisList}
+                selectedAnalyzer={selectedAnalyzer}
+                selectedHis={selectedHis}
             />
 
             <Paper sx={{ borderRadius: '20px', marginX: '30px', mt: 1, height: '80vh', overflow: 'auto' }}>
@@ -259,7 +305,19 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
                         {headingName}
                     </Typography>
                     {url == 'HisAnalyzer' &&
-                        <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+                    <>
+                        <FormControl sx={{ m: 1, minWidth: 170 }} size="small">
+                            <Autocomplete
+                                value={selectedHis}
+                                onChange={(event, value) => {
+                                    setSelectedHis(value?.label)
+                                    setSelectedAnalyzer("")
+                                }}
+                                options={hisMenuOptions}
+                                renderInput={(params) => <TextField {...params} label="HIS" />}
+                            />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, minWidth: 170 }} size="small">
                             <Autocomplete
                                 value={selectedAnalyzer}
                                 onChange={(event, value) => {
@@ -269,6 +327,7 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
                                 renderInput={(params) => <TextField {...params} label="Analyzer" />}
                             />
                         </FormControl>
+                    </>
                     }
                     <Stack direction={'row'} sx={{ width: isScreenSmall ? '100%' : '50%' }} className='table-header-func'>
                         <TextField
@@ -296,7 +355,7 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
                                         sx={{ width: "300px", border: '2px solid', borderRadius: '20px', fontSize: '18px', p: 1, ml: 2 }}
                                         variant="outlined"
                                         endIcon={<AddIcon />}
-                                        onClick={() => url == 'HisAnalyzer' ? setOpenHisModal(true) :url == 'TestOrder'? setOpenTestOrderModal(true): setOpenModal(true)}
+                                        onClick={() => url == 'HisAnalyzer' ? handleAddHIS() :url == 'TestOrder'? setOpenTestOrderModal(true): setOpenModal(true)}
                                     >
                                         {url == 'HisAnalyzer' ? 'ADD Mapping' : 'Add item'}
                                     </Button>

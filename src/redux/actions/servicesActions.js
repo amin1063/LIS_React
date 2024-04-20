@@ -1,5 +1,5 @@
 import { DeleteData, GetData, PostData, UpdateData } from "../../fetchServices";
-import { DATA_LOADER, ERROR_ALERT, FETCH_FAIL, GET_ANALYZERS, GET_ANALYZERS_PARAMETER, GET_COMBINED_ORDER, GET_CPT, GET_HIS, GET_HIS_ANALYZER, GET_LISCODE, INFO_ALERT, SUCCESS_ALERT } from "../ActionTypes";
+import { DATA_LOADER, ERROR_ALERT, FETCH_FAIL, GET_ANALYZERS, GET_ANALYZERS_PARAMETER, GET_COMBINED_ORDER, GET_CPT, GET_HIS, GET_HIS_ANALYZER, GET_HOSPITALS, GET_LISCODE, INFO_ALERT, SUCCESS_ALERT } from "../ActionTypes";
 
 export const getAnalyzers = (url) => async (dispatch) => {
     // dispatch({
@@ -152,6 +152,28 @@ export const getTestOrder = (url) => async (dispatch) => {
     } catch (error) {
       console.log("err",error);
     }
+};
+
+export const getHospital = (url) => async (dispatch) => {
+  // dispatch({
+  //     type: DATA_LOADER,
+  //   });
+  try {
+    const response = await GetData(url);
+    if(response.status === 200 ){
+      dispatch({
+        type: GET_HOSPITALS,
+        payload: response.data,
+      });
+    }else if(response.response.status === 500){
+      dispatch({
+        type: ERROR_ALERT,
+        payload: response.message,
+      });
+    }
+  } catch (error) {
+    console.log("err",error);
+  }
 };
 
 export const addDataAction= (url,data,rerender) => async (dispatch) => {

@@ -36,7 +36,8 @@ const SelectFieldComponent = ({ menuOptions, name, label, register, watch, setVa
                 onChange={(event, value) => {
                     setValue(name, value?.value || 0)
                 }}
-                renderInput={(params) => <TextField {...params} label={label} />}
+                
+                renderInput={(params) => <TextField {...params} label={label} required />}
             />
         </>
     )

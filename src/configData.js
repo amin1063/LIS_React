@@ -8,57 +8,82 @@ export const navConfigPublic = [
 export const navConfig = [
   { title: 'Home', path: '/' },
   {
-    title: 'Services',
-    children: [
-      { title: 'Analyzer', path: '/analyzer' },
-      { title: 'Analyzer Parameter', path: '/analyzerParameter' },
-      { title: 'CPT', path: '/CPT' },
-      { title: 'LIS Code', path: '/LISCode' },
-      { title: 'HIS', path: '/His' },
-      { title: 'HIS Analyzer', path: '/HISAnalyzer' },
-    ]
-  },
-  {
     title: 'Tests',
     children: [
-      { title: 'Test Categories', path: '/TestCategories' },
-      { title: 'Test Parameters', path: '/TestParameters' },
-      { title: 'Test Samples', path: '/TestSamples' },
-      { title: 'Test Units', path: '/TestUnits' },
-  { title: 'Test Order', path: '/TestOrder' },
-
+      { title: 'Orders', path: '/OrderMasters' },
+      { title: 'Results', path: '/PathologyResultMasters' },
+  
     ]
   },
   {
-    title: 'Pathology',
+    title: 'Configure',
     children: [
-      // { title: 'Pathology Pending Queues', path: '/PathologyPendingQueues' },
-    // { title: 'Pathology Result Details', path: '/PathologyResultDetails' },
-    { title: 'Pathology Result Masters', path: '/PathologyResultMasters' },
+      { title: 'Hospital', path: '/hospital' },
+      { title: 'Analyzer', path: '/analyzer' },
+      { title: 'Mapping', path: '/HISAnalyzer' },
+    ]
+  },
+  {
+    title: 'Support',
+    children: [
     { title: 'HearBeat Results', path: '/HeartBeatResults' },
-    { title: 'Analyzers-Machine', path: '/Analyzer-Machine' },
-    ]
-  },
-  {
-    title: 'Invoice/Orders',
-    children: [
-      { title: 'Invoice Details', path: '/InvoiceDetails' },
-  { title: 'Invoice Masters', path: '/InvoiceMasters' },
-  // { title: 'Order Details', path: '/OrderDetails' },
-  { title: 'Order Masters', path: '/OrderMasters' },
-    ]
-  },
-  {
-    title: 'Others',
-    children: [
-      { title: 'Gen Lookups', path: '/GenLookups' },
-      { title: 'Modules', path: '/Modules' },
-      { title: 'Role Modules', path: '/RoleModules' },
-      { title: 'Roles', path: '/Roles' },
-      { title: 'Users', path: '/Users' },
     ]
   },
 ];
+// export const navConfig = [
+//   { title: 'Home', path: '/' },
+//   {
+//     title: 'Services',
+//     children: [
+//       { title: 'Analyzer', path: '/analyzer' },
+//       { title: 'Analyzer Parameter', path: '/analyzerParameter' },
+//       { title: 'CPT', path: '/CPT' },
+//       { title: 'LIS Code', path: '/LISCode' },
+//       { title: 'HIS', path: '/His' },
+//       { title: 'HIS Analyzer', path: '/HISAnalyzer' },
+//     ]
+//   },
+//   {
+//     title: 'Tests',
+//     children: [
+//       { title: 'Test Categories', path: '/TestCategories' },
+//       { title: 'Test Parameters', path: '/TestParameters' },
+//       { title: 'Test Samples', path: '/TestSamples' },
+//       { title: 'Test Units', path: '/TestUnits' },
+//   { title: 'Test Order', path: '/TestOrder' },
+
+//     ]
+//   },
+//   {
+//     title: 'Pathology',
+//     children: [
+//       // { title: 'Pathology Pending Queues', path: '/PathologyPendingQueues' },
+//     // { title: 'Pathology Result Details', path: '/PathologyResultDetails' },
+//     { title: 'Pathology Result Masters', path: '/PathologyResultMasters' },
+//     { title: 'HearBeat Results', path: '/HeartBeatResults' },
+//     { title: 'Analyzers-Machine', path: '/Analyzer-Machine' },
+//     ]
+//   },
+//   {
+//     title: 'Invoice/Orders',
+//     children: [
+//       { title: 'Invoice Details', path: '/InvoiceDetails' },
+//   { title: 'Invoice Masters', path: '/InvoiceMasters' },
+//   // { title: 'Order Details', path: '/OrderDetails' },
+//   { title: 'Order Masters', path: '/OrderMasters' },
+//     ]
+//   },
+//   {
+//     title: 'Others',
+//     children: [
+//       { title: 'Gen Lookups', path: '/GenLookups' },
+//       { title: 'Modules', path: '/Modules' },
+//       { title: 'Role Modules', path: '/RoleModules' },
+//       { title: 'Roles', path: '/Roles' },
+//       { title: 'Users', path: '/Users' },
+//     ]
+//   },
+// ];
 
 //  export const childNav = [
 //     { title: 'Analyzer', path: '/analyzer' },
@@ -89,6 +114,18 @@ export const analyzerTableHeadings = [
   { id: 'id', label: 'Sr.No' },
   { id: 'Name', label: 'Analyzer Name' },
   { id: 'Vendor', label: 'Vendor' },
+  { id: 'Desc', label: 'Description' },
+  { id: 'IsActive', label: 'IsActive' },
+  { id: 'CreatedOn', label: 'CreatedOn' },
+  // { id: 'updatedOn', label: 'UpdatedOn' },
+  // { id: 'createdBy', label: 'CreatedBy' },
+  // { id: 'updatedBy', label: 'UpdatedBy' },
+  { id: 'actions', label: 'Actions' },
+];
+export const hospitalTableHeadings = [
+  { id: 'id', label: 'Sr.No' },
+  { id: 'Name', label: 'Name' },
+  { id: 'Phone', label: 'Phone' },
   { id: 'Desc', label: 'Description' },
   { id: 'IsActive', label: 'IsActive' },
   { id: 'CreatedOn', label: 'CreatedOn' },
@@ -272,9 +309,9 @@ export const invoiceMastersTableHeadings  = [
 ];
 
 export const orderDetailsTableHeadings  = [
-  { id: 'OrderID', label: 'Order ID' },
-  { id: 'CPTNAME', label: 'CPT Name' },
-  { id: 'CPTPrice', label: 'CPT Price' },
+  // { id: 'OrderID', label: 'Order ID' },
+  // { id: 'CPTNAME', label: 'CPT Name' },
+  // { id: 'CPTPrice', label: 'CPT Price' },
   { id: 'Quantity', label: 'Quantity' },
   { id: 'TestID', label: 'Test ID' },
   { id: 'TestName', label: 'Test Name' },
@@ -383,12 +420,12 @@ export const HisTableHeadings  = [
 
 export const HisAnalyzerTableHeadings  = [
   { id: 'id', label: 'Sr.No' },
-  { id: 'HisName', label: 'HIS' },
+  // { id: 'HisName', label: 'HIS' },
   { id: 'HisCode', label: 'Test ID' },
   { id: 'HparamName', label: 'Test Name' },
   { id: 'Hunit', label: 'Test Unit' },
   { id: 'Hrange', label: 'Test Range' },
-  { id: 'AnalyzerName', label: 'Analyzer' },
+  // { id: 'AnalyzerName', label: 'Analyzer' },
   { id: 'AnalyzerCode', label: 'Host Code' },
   { id: 'AparamName', label: 'Parameter Name' },
   { id: 'Aunit', label: 'Analyzer Unit' },

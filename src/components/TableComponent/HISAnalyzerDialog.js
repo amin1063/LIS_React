@@ -11,12 +11,12 @@ import { useDispatch } from 'react-redux';
 import { addDataAction, updateDataAction } from '../../redux/actions/servicesActions';
 import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
 
-const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analyzersList, hisList, rerender }) => {
+const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analyzersList, hisList, rerender,selectedAnalyzer,selectedHis }) => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [editValue, setEditValue] = editDataValue;
     const [openHisModal, setOpenHisModal] = modalValue;
-    const [dataKeys, setDataKeys] = useState({})
+    const [dataKeys, setDataKeys] = useState({});
     // const schema = yup.object().shape(schemaData[url]);
     const currentDateTime = new Date().toISOString();
     const [analyzerMenuOptions, setAnalyzerMenuOptions] = useState([]);
@@ -24,8 +24,7 @@ const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analy
     const [typeMenuOptions, setTypeMenuOptions] = useState([
         { label: 'CHAR', value: 'Char' },
         { label: 'NUM', value: 'Num' },
-    ])
-
+    ]);
 
     const hisAddSchema = {
         HISID: yup.number().required('required'),
@@ -62,8 +61,7 @@ const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analy
         setDataKeys({
             'HIS': Object.keys(schemaData['HISAnalyzer']['HIS']),
             'Analyzer': Object.keys(schemaData['HISAnalyzer']['Analyzer']),
-        }
-        )
+        } )
     }, [url])
 
     useEffect(() => {
@@ -122,6 +120,16 @@ const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analy
     const onSubmit = (e) => {
         e.preventDefault()
         let data = watch()
+        hisMenuOptions?.map((item,i)=>{
+            if(item.label == selectedHis){
+                data.HISID = item.value
+            }
+        })
+        analyzerMenuOptions?.map((item,i)=>{
+            if(item.label == selectedAnalyzer){
+                data.AnalyzerID = item.value
+            }
+        })
         let addData = data;
         addData.CreatedBy = 1;
         addData.UpdatedBy = 1;
@@ -183,20 +191,23 @@ const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analy
                                 <Grid container spacing={2} lg={6} md={6} sm={12} sx={{ mx: 1, }}>
                                     <Box sx={{ backgroundColor: '#f2c6ff', margin: '0 auto', width: '100%', borderRadius: '20px', p: 2,boxShadow:'3px 3px 10px'  }}>
                                         <Grid item xs={12} sx={{ px: 3, pb: 2 }}>
-                                            <Typography variant="h5" sx={{ textAlign: 'center', mb: 1 }}>HIS</Typography>
+                                            <Typography variant="h5" sx={{ textAlign: 'center', mb: 1 }}>{selectedHis || editValue?.HisName}</Typography>
                                             <Paper sx={{ p: 2 }}>
                                                 {dataKeys.HIS?.map((item, i) => (
                                                     <Stack spacing={2} sx={{ mt: i == 0 ? 0 : 2.5 }} key={item + i}>
-                                                        {item === "HISID" ? (
-                                                            <SelectFieldComponent
-                                                                name={'HISID'}
-                                                                label={'HIS'}
-                                                                menuOptions={hisMenuOptions}
-                                                                register={register}
-                                                                watch={watch}
-                                                                setValue={setValue}
-                                                            />
-                                                        ) : (
+                                                        {item === "HISID" ? 
+                                                        null
+                                                        // (
+                                                        //     <SelectFieldComponent
+                                                        //         name={'HISID'}
+                                                        //         label={'HIS'}
+                                                        //         menuOptions={hisMenuOptions}
+                                                        //         register={register}
+                                                        //         watch={watch}
+                                                        //         setValue={setValue}
+                                                        //     />
+                                                        // ) 
+                                                        : (
                                                             <>
                                                                 {item === 'Desc' || item === 'description' ? (
                                                                     <TextFieldComponent
@@ -247,20 +258,23 @@ const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analy
                                 <Grid container spacing={2} lg={6} md={6} sm={12} sx={{ mx: 1, marginTop: '0px !important' }}>
                                     <Box sx={{ backgroundColor: '#94dde8', margin: '0 auto', width: '100%', borderRadius: '20px', p: 2 ,boxShadow:'3px 3px 10px' }}>
                                         <Grid item xs={12} sx={{ px: 3, pb: 2 }}>
-                                            <Typography variant="h5" sx={{ textAlign: 'center', mb: 1 }}>Analyzer</Typography>
+                                            <Typography variant="h5" sx={{ textAlign: 'center', mb: 1 }}>{selectedAnalyzer || editValue?.AnalyzerName}</Typography>
                                             <Paper sx={{ p: 2 }}>
                                                 {dataKeys.Analyzer?.map((item, i) => (
                                                     <Stack spacing={2} sx={{ mt: i == 0 ? 0 : 2.5 }} key={item + i}>
-                                                        {item === "AnalyzerID" ? (
-                                                            <SelectFieldComponent
-                                                                name={'AnalyzerName'}
-                                                                label={'Analyzer'}
-                                                                menuOptions={analyzerMenuOptions}
-                                                                register={register}
-                                                                watch={watch}
-                                                                setValue={setValue}
-                                                            />
-                                                        ) : (
+                                                        {item === "AnalyzerID" ? 
+                                                        null
+                                                        //  (
+                                                        //     <SelectFieldComponent
+                                                        //         name={'AnalyzerName'}
+                                                        //         label={'Analyzer'}
+                                                        //         menuOptions={analyzerMenuOptions}
+                                                        //         register={register}
+                                                        //         watch={watch}
+                                                        //         setValue={setValue}
+                                                        //     />
+                                                        // )
+                                                         : (
                                                             <>
                                                                 {item === 'Desc' || item === 'description' ? (
                                                                     <TextFieldComponent

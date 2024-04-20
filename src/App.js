@@ -32,6 +32,7 @@ import HeartBeat from './pages/HeartBeat';
 import AnalyzerMachine from './pages/AnalyzerMachine';
 import LoginPage from './components/Login/LoginPage';
 import TestOrder from './pages/TestOrder';
+import Hospital from './pages/Hospital';
 
 function App() {
   const dispatch = useDispatch();
@@ -68,6 +69,7 @@ function App() {
           <Route path='*' element={<Home />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/analyzer' element={<Analyzer/>} />
+          <Route path='/hospital' element={<Hospital/>} />
           <Route path='/analyzerParameter' element={<AnalyzerParameter />} />
           <Route path='/CPT' element={<CPT />} />
           <Route path='/LISCode' element={<LISCode />} />

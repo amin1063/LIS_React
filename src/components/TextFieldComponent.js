@@ -2,7 +2,7 @@ import { TextField } from '@mui/material'
 import React from 'react'
 
 const TextFieldComponent = (props) => {
-    const { className, name,label,checkValidation,register,watch, ...rest } = props
+    const { className, name,label,checkValidation,register,watch,errors, ...rest } = props
 
     return (
         <TextField
@@ -16,7 +16,10 @@ const TextFieldComponent = (props) => {
                 shrink: true,
             }}
             fullWidth
-            // required
+            // error={!!errors[name]} 
+            // helperText={errors[name]?.message || ''}
+            required
+            
         />
     )
 }

@@ -261,4 +261,9 @@ export const schemaData = {
                 // Type: yup.string().required('required'),
             }
     },
+    'Hospital' :{
+        Name: yup.string().required('required'),
+        Phone: yup.string().required('required'),
+        Desc: yup.string().required('required'),
+    }
 }

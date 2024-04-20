@@ -22,7 +22,7 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
     {label:'Collected',value:'Collected'},
     {label:'Order',value:'Order'},
     // {label:'OrderDetail ID',value:'OrderDetailId'},
-    {label:'Sent',value:'Sent'},
+    {label:'Sent',value:'IsSent'},
     {label:'Sample ID',value:'SampleId'},
     // {label:'CPT Name',value:'CPTName'},
   ]
@@ -118,6 +118,9 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                                        { `${editValue[item.value] || editValue['SampleID'] || '-'}`}
                                     </Typography>
                                     :
+                                    item.label == "Sent" ?
+                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>{editValue[item.value] == true ? "true":"false" || '-'}</Typography> :
+
                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
                                        { `${editValue[item.value] || '-'}`}
                                     </Typography>
