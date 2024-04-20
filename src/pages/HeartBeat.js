@@ -14,10 +14,15 @@ const HeartBeat = () => {
     const [data, setData] = useState([]);
     const dispatch = useDispatch()
     const heartBeatList = useSelector((state) => state.pathologyReducer.heartBeatList);
+    const [refresh, setRefresh] = useState(false);
+
+    const handleRefresh = () => {
+      setRefresh(prevRefresh => !prevRefresh);
+    };
 
     useEffect(() => {
         dispatch(getHeartBeat(URL));
-    }, [])
+    }, [refresh])
 
     useEffect(() => {
         if (heartBeatList && heartBeatList?.length) {

@@ -10,7 +10,7 @@ const HISDetailViewPopup = ({ detailsModalValue, editDataValue }) => {
     const [dataKeys, setDataKeys] = useState({
         'Details': ['IsActive', 'UpdatedBy', 'UpdatedOn', 'CreatedBy', 'CreatedOn'],
         'HIS': [
-            {label:'HIS Name',value:'HisName'},
+            {label:'HIS Name',value:'Hospital'},
             {label:'Test ID',value:'HisCode'},
             {label:'Test Name',value:'HparamName'},
             {label:'Range',value:'Hrange'},
@@ -46,7 +46,7 @@ const HISDetailViewPopup = ({ detailsModalValue, editDataValue }) => {
                 onClose={Close}
                 sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90%', height: '85%' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '85%' }}>
                     <Card sx={{ position: 'relative', backgroundColor: '#f5f5f5', pb: '5px', minHeight: '100%', minWidth: '55%', maxHeight: '80vh', borderRadius: '20px', overflowY: 'scroll', textAlign: 'center', border: '1px solid black', boxShadow: '1px 2px 15px black' }}>
                         <Typography sx={{ fontSize: '28px', textAlign: 'center', padding: '10px', fontWeight: 'bold', color: 'white', backgroundColor: 'gray' }}>Details</Typography>
                         <Box sx={{ position: 'absolute', top: '10px', right: '10px' }}>
@@ -60,7 +60,7 @@ const HISDetailViewPopup = ({ detailsModalValue, editDataValue }) => {
                                 <Card sx={{ borderRadius: '20px', p: 3, pb: 0, py: 1.8,boxShadow:'5px 5px 10px'  }}>
                                     {dataKeys['HIS']?.map((item, i) => (
                                         <Stack key={i} direction={'row'} gap={1} sx={{ textAlign: 'justify', paddingBottom: '5px' }}>
-                                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', color: '#666', width: '120px' }}>{upperCase(item.label)}</Typography> : <Typography sx={{ fontSize: '16px', color: '#444', fontWeight: '600', ml: 1 }}>{editValue[item.value] || '-'}</Typography>
+                                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', color: '#666', width: '100px' }}>{upperCase(item.label)}</Typography> : <Typography sx={{ fontSize: '16px', color: '#444', fontWeight: '600', ml: 1 }}>{editValue[item.value] || '-'}</Typography>
                                         </Stack>
                                     ))}
                                 </Card>

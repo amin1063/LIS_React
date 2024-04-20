@@ -26,7 +26,7 @@ export const navConfig = [
   {
     title: 'Support',
     children: [
-    { title: 'HearBeat Results', path: '/HeartBeatResults' },
+    { title: 'HeartBeat Results', path: '/HeartBeatResults' },
     ]
   },
 ];
@@ -60,7 +60,7 @@ export const navConfig = [
 //       // { title: 'Pathology Pending Queues', path: '/PathologyPendingQueues' },
 //     // { title: 'Pathology Result Details', path: '/PathologyResultDetails' },
 //     { title: 'Pathology Result Masters', path: '/PathologyResultMasters' },
-//     { title: 'HearBeat Results', path: '/HeartBeatResults' },
+//     { title: 'HeartBeat Results', path: '/HeartBeatResults' },
 //     { title: 'Analyzers-Machine', path: '/Analyzer-Machine' },
 //     ]
 //   },

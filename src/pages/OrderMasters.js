@@ -9,12 +9,17 @@ const OrderMasters = () => {
   const [data,setData] = useState([]);
   const dispatch = useDispatch()
   const orderMastersList =  useSelector((state) => state.invoiceOrderReducer.orderMastersList);
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = () => {
+    setRefresh(prevRefresh => !prevRefresh);
+  };
   
 
   useEffect(()=>{
     dispatch(getOrderMasters(URL));
     dispatch(getOrderDetails('OrderDetail'));
-  },[])
+  },[refresh])
   
   useEffect(()=>{
     if(orderMastersList && orderMastersList?.length){
@@ -30,6 +35,7 @@ const OrderMasters = () => {
         rerender = {getOrderMasters}
         headingName={'OrderMasters'}
         tableHeadings={orderMastersTableHeadings}
+        handleRefresh={handleRefresh}
       />
     </>
   )

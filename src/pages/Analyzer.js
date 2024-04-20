@@ -10,10 +10,15 @@ const Analyzer = () => {
   const [data,setData] = useState([]);
   const dispatch = useDispatch()
   const analyzerLists =  useSelector((state) => state.servicesReducer.analyzerLists);
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = () => {
+    setRefresh(prevRefresh => !prevRefresh);
+  };
 
   useEffect(()=>{
     dispatch(getAnalyzers(URL));
-  },[])
+  },[refresh])
   
   useEffect(()=>{
     if(analyzerLists && analyzerLists?.length){
@@ -29,6 +34,7 @@ const Analyzer = () => {
         rerender={getAnalyzers}
         headingName={'Analyzers'}
         tableHeadings={analyzerTableHeadings}
+        handleRefresh={handleRefresh}
       />
     </>
   )

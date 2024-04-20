@@ -16,13 +16,14 @@ import HISAnalyzerDialog from './HISAnalyzerDialog';
 import HISDetailViewPopup from './HISDetailViewPopup';
 import SampleIdDetailPopup from './SampleIdDetailPopup';
 import SearchIcon from '@mui/icons-material/Search';
+import CachedIcon from '@mui/icons-material/Cached';
 import CloseIcon from '@mui/icons-material/Close';
 import SelectFieldComponent from '../SelectFieldComponent';
 import TestOrderDialog from './TestOrderDialog';
 import { ERROR_ALERT } from '../../redux/ActionTypes';
 
 
-const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesList, analyzersList, cptList, hisList, rerender, readable, showColor, analyzerDropDown }) => {
+const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesList, analyzersList, cptList, hospitalList, rerender, readable, showColor, analyzerDropDown,handleRefresh }) => {
     const dispatch = useDispatch()
     const [tableData, setTableData] = useState([])
     const [orderBy, setOrderBy] = useState(null);
@@ -197,21 +198,21 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
             })
             setAnalyzerMenuOptions(data)
         }
-        if (hisList?.length) {
+        if (hospitalList?.length) {
             let data = []
-            hisList && hisList?.map((item, i) => {
+            hospitalList && hospitalList?.map((item, i) => {
                 data.push({ label: item?.Name, value: item.ID })
             })
             setHisMenuOptions(data)
         }
-    }, [analyzersList, LisCodesList, hisList])
+    }, [analyzersList, LisCodesList, hospitalList])
 
     useEffect(() => {
         if (selectedHis?.length && selectedAnalyzer?.length) {
-            let filterData = data?.filter((item, i) => item?.HisName === selectedHis && item?.AnalyzerName === selectedAnalyzer);
+            let filterData = data?.filter((item, i) => item?.Hospital === selectedHis && item?.AnalyzerName === selectedAnalyzer);
             setTableData(filterData);
         } else if (selectedHis?.length) {
-            let filterData = data?.filter((item, i) => item?.HisName === selectedHis);
+            let filterData = data?.filter((item, i) => item?.Hospital === selectedHis);
             let newMenuOptions = [];
             analyzersList && analyzersList?.forEach((item, i) => {
                 filterData.forEach((filteredItem) => {
@@ -295,16 +296,22 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
                 fetchData={fetchData}
                 tableHeadings={tableHeadings}
                 analyzersList={analyzersList}
-                hisList={hisList}
+                hospitalList={hospitalList}
                 selectedAnalyzer={selectedAnalyzer}
                 selectedHis={selectedHis}
             />
 
             <Paper sx={{ borderRadius: '20px', marginX: '30px', mt: 1, height: '80vh', overflow: 'auto' }}>
                 <Stack direction={'row'} className='table-header'>
+                    <Stack direction={'row'}>
                     <Typography variant="h6" className='table-headingName'>
                         {headingName}
                     </Typography>
+                    <IconButton color="primary" size='large' sx={{ p: 0.2, m: 0, }} onClick={handleRefresh}  aria-label="edit">
+                        <CachedIcon sx={{ ml: 0.3,  }} />
+                    </IconButton>
+
+                    </Stack>
                     {url == 'HisAnalyzer' &&
                     <>
                         <FormControl sx={{ m: 1, minWidth: 170 }} size="small">
@@ -360,7 +367,7 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
                                     >
                                         {url == 'HisAnalyzer' ? 'ADD Mapping' : 'Add item'}
                                     </Button>
-                                )}
+                                    )}
                             </>
                         }
                     </Stack>

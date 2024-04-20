@@ -66,7 +66,7 @@ function App() {
         <Navbar />
         {type && <AlertDialog type={type} message={message} openAlert={[showAlert, setShowAlert]} />}
         <Routes>
-          <Route path='*' element={<Home />} />
+          <Route path='/' element={<Home />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/analyzer' element={<Analyzer/>} />
           <Route path='/hospital' element={<Hospital/>} />

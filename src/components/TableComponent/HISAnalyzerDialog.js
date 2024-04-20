@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { addDataAction, updateDataAction } from '../../redux/actions/servicesActions';
 import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
 
-const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analyzersList, hisList, rerender,selectedAnalyzer,selectedHis }) => {
+const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analyzersList, hospitalList, rerender,selectedAnalyzer,selectedHis }) => {
 
     const dispatch = useDispatch();
     const [editValue, setEditValue] = editDataValue;
@@ -72,20 +72,20 @@ const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analy
             })
             setAnalyzerMenuOptions(data)
         }
-        if (hisList?.length) {
+        if (hospitalList?.length) {
             let data = []
-            hisList.map((item, i) => {
+            hospitalList.map((item, i) => {
                 data.push({ label: item?.Name, value: item.ID })
             })
             setHisMenuOptions(data)
         }
-    }, [analyzersList, LisCodesList, hisList])
+    }, [analyzersList, LisCodesList, hospitalList])
 
     useEffect(() => {
         if (editValue?.Id) {
             Object.keys(editValue).forEach(key => {
                 const name = editValue[key];
-                if (key == 'HisName') {
+                if (key == 'Hospital') {
                     const defaultValue = hisMenuOptions.find(option => option.label === name);
                     if (defaultValue) setValue('HISID', defaultValue);
                     setValue('HISCode', editValue['HisCode']);
@@ -138,7 +138,7 @@ const HISAnalyzerDialog = ({ modalValue, editDataValue, url, LisCodesList, analy
         addData.IsActive = true
         // addData.ID = 0;
         addData.AUnt = data.AUnit;
-        addData.AnalyzerID = data.AnalyzerName;
+        // addData.AnalyzerID = data.AnalyzerName;
         delete data.AUnit
         delete data.AparamName
         delete data.Arange

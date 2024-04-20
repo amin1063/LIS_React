@@ -9,11 +9,16 @@ const PathologyResultMasters = () => {
   const [data,setData] = useState([]);
   const dispatch = useDispatch()
   const pathologyResultMastersList =  useSelector((state) => state.pathologyReducer.pathologyResultMastersList);
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = () => {
+    setRefresh(prevRefresh => !prevRefresh);
+  };
 
   useEffect(()=>{
     dispatch(getPathologyResultMasters(URL));
     dispatch(getPathologyResultDetails('PathologyResultDetail'));
-  },[])
+  },[refresh])
   
   useEffect(()=>{
     if(pathologyResultMastersList && pathologyResultMastersList?.length){
@@ -29,6 +34,7 @@ const PathologyResultMasters = () => {
         headingName={'Samples'}
         tableHeadings={pathologyResultMastersTableHeadings}
         readable={true}
+        handleRefresh={handleRefresh}
       />
     </>
   )

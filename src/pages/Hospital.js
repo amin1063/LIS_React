@@ -10,10 +10,15 @@ const Hospital = () => {
   const [data,setData] = useState([]);
   const dispatch = useDispatch()
   const hospitalList =  useSelector((state) => state.servicesReducer.hospitalList);
+  const [refresh, setRefresh] = useState(false);
+
+  const handleRefresh = () => {
+    setRefresh(prevRefresh => !prevRefresh);
+  };
 
   useEffect(()=>{
     dispatch(getHospital(URL));
-  },[])
+  },[refresh])
   
   useEffect(()=>{
     if(hospitalList && hospitalList?.length){
@@ -29,6 +34,7 @@ const Hospital = () => {
         rerender={getHospital}
         headingName={'Hospital'}
         tableHeadings={hospitalTableHeadings}
+        handleRefresh={handleRefresh}
       />
     </>
   )

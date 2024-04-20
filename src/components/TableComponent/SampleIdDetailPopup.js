@@ -139,7 +139,7 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                                     </Typography>
                                     :
                                     item.label == "Sent" ?
-                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>{editValue[item.value] == true ? "true":"false" || '-'}</Typography> :
+                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>{editValue[item.value] == true ? "Yes":"No" || '-'}</Typography> :
 
                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
                                        { `${editValue[item.value] || '-'}`}
@@ -167,7 +167,7 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                                     </Typography>
                                     :
                                     item.label == "Sent" ?
-                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>{editValue[item.value] == true ? "true":"false" || '-'}</Typography> :
+                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>{editValue[item.value] == true ? "Yes":"No" || '-'}</Typography> :
 
                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
                                        { `${editValue[item.value] || '-'}`}
