@@ -110,6 +110,7 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
         || row?.ID?.toString().includes(searchTerm)
         || row?.Id?.toString().includes(searchTerm)
         || row?.OrderID?.toString().includes(searchTerm)
+        || row?.UserID?.toString().includes(searchTerm)
         // || row?.analyzerName?.toString().includes(searchTerm)
         // || row?.cptName?.toString().includes(searchTerm)
         // || row?.liscodeName?.toString().includes(searchTerm)
@@ -520,7 +521,7 @@ const TableData = ({ data, headingName, tableHeadings, url, fetchData, LisCodesL
                                                                     {DateConvertion(row[item.id]) || '-'}
                                                                 </TableCell>
                                                             ) :
-                                                                item.id === 'SampleId' || item.id === 'MRN' || item.id === 'SampleID'  ? (
+                                                                item.id === 'SampleId' || item.id === 'MRN' || item.id === 'SampleID' || item.id === 'MRn'  ? (
                                                                     <Tooltip arrow title="Click for Details" placement="bottom">
                                                                         <TableCell onClick={() => sampleDetailView(row, item.id)} sx={{ paddingY: '10px', color: '#27A3B9', fontWeight: '600', cursor: 'pointer', pr: 0 }}>
                                                                             {row[item.id] || '-'}

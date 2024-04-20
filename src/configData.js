@@ -309,28 +309,20 @@ export const invoiceMastersTableHeadings  = [
 ];
 
 export const orderDetailsTableHeadings  = [
-  // { id: 'OrderID', label: 'Order ID' },
-  // { id: 'CPTNAME', label: 'CPT Name' },
-  // { id: 'CPTPrice', label: 'CPT Price' },
-  { id: 'Quantity', label: 'Quantity' },
+
   { id: 'TestID', label: 'Test ID' },
   { id: 'TestName', label: 'Test Name' },
   { id: 'Status', label: 'Status' },
-  // { id: 'createdOn', label: 'CreatedOn' },
-  // { id: 'updatedOn', label: 'UpdatedOn' },
-  // { id: 'createdBy', label: 'CreatedBy' },
-  // { id: 'updatedBy', label: 'UpdatedBy' },
-  // { id: 'actions', label: 'Actions' },
 ];
 
 export const orderMastersTableHeadings  = [
   { id: 'id', label: 'Sr.No' },
-  { id: 'UserID', label: 'User Id' },
-  { id: 'Physician', label: 'Physician' },
-  { id: 'SampleID', label: 'SampleID' },
-  { id: 'MRN', label: 'MRN' },
-  { id: 'Desc', label: 'Description' },
-  { id: 'IsActive', label: 'IsActive' },
+  { id: 'PatientName', label: 'Patient' },
+  { id: 'SampleId', label: 'SampleID' },
+  { id: 'MRn', label: 'MRN' },
+  { id: 'HospitalName', label: 'Hospital' },
+  { id: 'PhysicianName', label: 'Physician' },
+  // { id: 'Desc', label: 'Description' },
   // { id: 'createdOn', label: 'CreatedOn' },
   // { id: 'updatedOn', label: 'UpdatedOn' },
   // { id: 'createdBy', label: 'CreatedBy' },

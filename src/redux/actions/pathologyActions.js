@@ -1,5 +1,5 @@
 import {GetData} from "../../fetchServices";
-import { ERROR_ALERT, GET_HEART_BEAT, GET_PATHOLOGY_PENDING_QUEUES, GET_PATHOLOGY_RESULT_DETAILS, GET_PATHOLOGY_RESULT_MASTERS } from "../ActionTypes";
+import { ERROR_ALERT, GET_HEART_BEAT, GET_MRN_BY_ID, GET_PATHOLOGY_PENDING_QUEUES, GET_PATHOLOGY_RESULT_DETAILS, GET_PATHOLOGY_RESULT_MASTERS } from "../ActionTypes";
 
 export const getPathologyPendingQueues = (url) => async (dispatch) => {
     try {
@@ -65,6 +65,26 @@ export const getHeartBeat = (url) => async (dispatch) => {
       dispatch({
         type: GET_HEART_BEAT,
         payload: response.data,
+      });
+    }else if(response.response.status === 500){
+      dispatch({
+        type: ERROR_ALERT,
+        payload: response.message,
+      });
+    }
+  } catch (error) {
+    console.log("err",error);
+  }
+};
+
+
+export const getDetailsByMRN = (url) => async (dispatch) => {
+  try {
+    const response = await GetData(url);
+    if(response.status === 200 ){
+      dispatch({
+        type: GET_MRN_BY_ID,
+        payload: response.data[0]?.OrderDetails,
       });
     }else if(response.response.status === 500){
       dispatch({

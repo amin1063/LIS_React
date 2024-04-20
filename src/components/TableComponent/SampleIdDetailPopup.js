@@ -2,29 +2,39 @@ import { Card, Stack, Typography, Box, Modal, IconButton, Paper, TableContainer,
 import React, { useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import '../../App.css'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SampleDetailsTableHeadings, orderDetailsTableHeadings } from '../../configData';
+import { getDetailsByMRN } from '../../redux/actions/pathologyActions';
 
 const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,url }) => {
-
   const [editValue, setEditValue] = editDataValue;
   const [openDetailsModal, setOpenDetailsModal] = detailsModalValue;
   const [dataKeys, setDataKeys] = useState([])
   const pathologyResultDetailsList = useSelector((state) => state.pathologyReducer.pathologyResultDetailsList);
+  const mrnDataList = useSelector((state) => state.pathologyReducer.mrnDataList);
   const orderDetailsList =  useSelector((state) => state.invoiceOrderReducer.orderDetailsList);
   const [detailsList, setDetailsList] = useState([]);
   const [detailsTableHeading, setDetailsTableHeading] = useState([]);
   const [loading, setLoading] = useState(true)
+  const dispatch = useDispatch()
+
   const detailsData = [
     {label:'Name',value:'Patient'},
     {label:'MRN',value:'MRN'},
     {label:'Received',value:'Received'},
     {label:'Collected',value:'Collected'},
     {label:'Order',value:'Order'},
-    // {label:'OrderDetail ID',value:'OrderDetailId'},
     {label:'Sent',value:'IsSent'},
     {label:'Sample ID',value:'SampleId'},
-    // {label:'CPT Name',value:'CPTName'},
+  ]
+
+  const orderDetailsData = [
+    {label:'Name',value:'PatientName'},
+    {label:'Physician',value:'PhysicianName'},
+    {label:'MRN',value:'MRn'},
+    {label:'SampleId',value:'SampleId'},
+    {label:'OrderNumber',value:'OrderNumber'},
+    {label:'Status',value:'Status'},
   ]
   const dateArray = ['Received','Collected','CreatedOn','UpdatedOn','Order']
 
@@ -50,12 +60,14 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
 
   useEffect(()=>{
     if(url == 'OrderMaster'){
+      if(sampleFilterId == "MRn"){
+        dispatch(getDetailsByMRN(`TestOrder/MRN/${editValue?.MRn}`))
+      }
       setDetailsTableHeading(orderDetailsTableHeadings)
     }else{
       setDetailsTableHeading(SampleDetailsTableHeadings)
     }
-
-  },[url])
+  },[url,editValue])
 
   useEffect(() => {
     if (pathologyResultDetailsList?.length || orderDetailsList?.length ) {
@@ -68,15 +80,22 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
       let data;
       if( sampleFilterId == 'MRN'){
         data = filterby.filter((item, i) => item.MRN == editValue.MRN)
-      }else if(url == "PathologyResultMaster"){
+      }
+      else if( sampleFilterId == 'MRn'){
+        data = mrnDataList
+      }
+      else if(url == "PathologyResultMaster"){
         data = filterby.filter((item, i) => item.PathologyResultMasterId== editValue.Id)
-      }else{
-        data = filterby.filter((item, i) => item.SampleID == editValue.SampleId)
+      }else if(url == "OrderMaster"){
+        data = filterby.filter((item, i) => item.OrderMasterID == editValue.Id)
+      }
+      else{
+        data = filterby.filter((item, i) => item.OrderDetails == editValue.SampleId)
       }
       setDetailsList(data)
       setLoading(false)
     }
-  }, [pathologyResultDetailsList,editValue,sampleFilterId,orderDetailsList])
+  }, [pathologyResultDetailsList,editValue,sampleFilterId,orderDetailsList,mrnDataList])
 
   const Close = () => {
     setOpenDetailsModal(false)
@@ -99,7 +118,8 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
             </Box>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'justify', padding: '0 20px', mt: 2 }}>
                             <Card sx={{ width: '100%', margin: '0 auto', my: 0,mb:2, p: 2,display:'flex',justifyContent:'space-between',flexWrap:'wrap' }}>
-                            {detailsData.map((item, i) => (
+                            { url == 'OrderMaster' ?
+                            orderDetailsData.map((item, i) => (
                                 <Stack key={i}  direction={'row'} gap={1} sx={{ 
                                   width:'50%',
                                   textAlign: 'justify',
@@ -126,7 +146,36 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                                     </Typography>
                                     }
                                 </Stack>
-                            ))}
+                            )) :
+                            detailsData.map((item, i) => (
+                                <Stack key={i}  direction={'row'} gap={1} sx={{ 
+                                  width:'50%',
+                                  textAlign: 'justify',
+                                  // backgroundColor: item.label == 'Name'? 'black': item.label == 'MRN'?'black':'white',
+                                  // color: item.label == 'Name'? 'white': item.label == 'MRN'?'white':'black',
+                                  // padding: item.label == 'Name'? '3px': item.label == 'MRN' ? '3px':'0px',
+                                  }}
+                                  >
+                                    <Typography sx={{ fontSize: '14px', fontWeight: 'bold', width: '120px',color:'#666' }}>{item.label}</Typography> :
+                                    {dateArray.includes(item.label) ? 
+                                    <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
+                                       { `${editValue[item.value] || DateConvertion(currentDate)}`}
+                                    </Typography> :
+                                    item.label == "Sample ID" ?
+                                    <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
+                                       { `${editValue[item.value] || editValue['SampleID'] || '-'}`}
+                                    </Typography>
+                                    :
+                                    item.label == "Sent" ?
+                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>{editValue[item.value] == true ? "true":"false" || '-'}</Typography> :
+
+                                    <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
+                                       { `${editValue[item.value] || '-'}`}
+                                    </Typography>
+                                    }
+                                </Stack>
+                            ))
+                          }
 
                         </Card>
               <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -165,7 +214,9 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                                       {rowId + 1}
                                     </TableCell>
                                   )
-                                } else {
+                                } 
+                                
+                                else {
                                   return (
                                     <TableCell key={column.id} sx={{fontWeight: checkAbnormalValue(row?.AbnormalFlag) ? 'bold':'normal'}} >
                                     {/* <TableCell key={column.id} sx={{fontWeight: ["A","H~A"].includes(row?.AbnormalFlag) ? 'bold':'normal'}} > */}

@@ -31,3 +31,4 @@ export const ERROR_ALERT = 'ERROR_ALERT';
 export const PROGRESS_DONE = 'PROGRESS_DONE';
 export const PROGRESS_START = 'PROGRESS_START';
 export const GET_COMBINED_ORDER = 'GET_COMBINED_ORDER';
+export const GET_MRN_BY_ID = 'GET_MRN_BY_ID';
