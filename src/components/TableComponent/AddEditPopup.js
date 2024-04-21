@@ -16,7 +16,7 @@ const AddEditPopup = ({ modalValue, editDataValue,url,fetchData,LisCodesList,ana
     const [editValue, setEditValue] = editDataValue;
     const [openModal, setOpenModal] = modalValue;
     const [dataKeys,setDataKeys] = useState([])
-    const schema = yup.object().shape(schemaData[url]);
+    const schema = schemaData[url];
     const currentDateTime = new Date().toISOString();
     const [analyzerMenuOptions,setAnalyzerMenuOptions] = useState([]);
     const [liscodeMenuOptions,setLiscodeMenuOptions] = useState([]);
@@ -32,12 +32,10 @@ const AddEditPopup = ({ modalValue, editDataValue,url,fetchData,LisCodesList,ana
         reset,
         watch,
         setValue,
-        getValues,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(yup.object().shape(schema)),
     });
-    // console.log("errors", errors);
 
     const upperCase =(data)=>{
         if(data?.length){
@@ -106,8 +104,8 @@ const AddEditPopup = ({ modalValue, editDataValue,url,fetchData,LisCodesList,ana
         setOpenModal(false)
     }
 
-    const onSubmit = (e) => {
-        e.preventDefault()
+    const onSubmit = (event) => {
+        // event.preventDefault()
         let testOrderData = {}
         let data = watch()
         let addData = data;
@@ -190,6 +188,7 @@ const AddEditPopup = ({ modalValue, editDataValue,url,fetchData,LisCodesList,ana
                 dispatch(addDataAction(url,addData,rerender))
             }
             Close()
+            reset()
         }
     }
 
@@ -203,7 +202,7 @@ const AddEditPopup = ({ modalValue, editDataValue,url,fetchData,LisCodesList,ana
                 <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
                     <Card sx={{ backgroundColor: '#ffff', pb: '10px', maxWidth:'80%', borderRadius: '20px' }}>
                         <Typography sx={{ fontSize: '24px', textAlign: 'center', padding: '10px', fontWeight: '600' }}> {editValue.id ? 'Edit Data' : 'Add Data'}</Typography>
-                        <form onSubmit={onSubmit} >
+                        <form onSubmit={handleSubmit(onSubmit)} >
                             <Grid container spacing={2} sx={{mx:3}}>
                                 {dataKeys?.map((item,i)=>(
                                     <Grid key={item+i} item xs={10.5} sm={5.5} md={3.7} lg={3.7}>
@@ -229,12 +228,14 @@ const AddEditPopup = ({ modalValue, editDataValue,url,fetchData,LisCodesList,ana
                                             name={item}
                                             label={upperCase(item)}
                                             register={register}
+                                            errors={errors}
                                         />
                                         :
                                         <TextFieldComponent
                                             name={item}
                                             label={upperCase(item)}
                                             register={register}
+                                            errors={errors}
                                         />
                                     }
                                  </Grid> 

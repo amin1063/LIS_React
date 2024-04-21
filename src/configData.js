@@ -261,21 +261,14 @@ export const pathologyResultMastersTableHeadings  = [
   { id: 'id', label: 'Sr.No' },
   // { id: 'OrderDetailId', label: 'Order Deatil ID' },
   // { id: 'CptName', label: 'CPT Name' },
-  { id: 'SampleId', label: 'Sample Id' },
-  { id: 'MRN', label: 'MRN' },
-  { id: 'Patient', label: 'Patient Name' },
-  { id: 'Received', label: 'Received' },
-  { id: 'Collected', label: 'Collected' },
-  // { id: 'labId', label: 'Lab Id' },
-  { id: 'Status', label: 'Status' },
-  // { id: 'Desc', label: 'Description' },
-  // { id: 'IsActive', label: 'IsActive' },
-  // { id: 'createdOn', label: 'CreatedOn' },
-  // { id: 'updatedOn', label: 'UpdatedOn' },
-  // { id: 'createdBy', label: 'CreatedBy' },
-  // { id: 'updatedBy', label: 'UpdatedBy' },
+  { id: 'SampleID', label: 'Sample Id' },
+  { id: 'PatientId', label: 'Patient Id' },
+  { id: 'PatientName', label: 'Patient' },
+  { id: 'IsSent', label: 'Sent' },
   { id: 'actions', label: 'Actions' },
 ];
+
+
 
 export const invoiceDetailsTableHeadings  = [
   { id: 'id', label: 'Sr.No' },
@@ -319,7 +312,7 @@ export const orderMastersTableHeadings  = [
   { id: 'id', label: 'Sr.No' },
   { id: 'PatientName', label: 'Patient' },
   { id: 'SampleId', label: 'SampleID' },
-  { id: 'MRn', label: 'MRN' },
+  { id: 'MRN', label: 'MRN' },
   { id: 'HospitalName', label: 'Hospital' },
   { id: 'PhysicianName', label: 'Physician' },
   // { id: 'Desc', label: 'Description' },

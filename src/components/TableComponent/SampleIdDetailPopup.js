@@ -10,20 +10,20 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
   const [editValue, setEditValue] = editDataValue;
   const [openDetailsModal, setOpenDetailsModal] = detailsModalValue;
   const [dataKeys, setDataKeys] = useState([])
-  const pathologyResultDetailsList = useSelector((state) => state.pathologyReducer.pathologyResultDetailsList);
+  const testResultsList =  useSelector((state) => state.servicesReducer.testResultsList);
   const mrnDataList = useSelector((state) => state.pathologyReducer.mrnDataList);
-  const orderDetailsList =  useSelector((state) => state.invoiceOrderReducer.orderDetailsList);
+  // const orderDetailsList =  useSelector((state) => state.invoiceOrderReducer.orderDetailsList);
   const [detailsList, setDetailsList] = useState([]);
   const [detailsTableHeading, setDetailsTableHeading] = useState([]);
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
 
   const detailsData = [
-    {label:'Name',value:'Patient'},
-    {label:'MRN',value:'MRN'},
-    {label:'Received',value:'Received'},
-    {label:'Collected',value:'Collected'},
-    {label:'Order',value:'Order'},
+    {label:'Name',value:'PatientName'},
+    {label:'MRN',value:'PatientId'},
+    {label:'Received',value:'CreatedOn'},
+    {label:'Collected',value:'CollectionTime'},
+    // {label:'Order',value:'Order'},
     {label:'Sent',value:'IsSent'},
     {label:'Sample ID',value:'SampleId'},
   ]
@@ -31,12 +31,12 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
   const orderDetailsData = [
     {label:'Name',value:'PatientName'},
     {label:'Physician',value:'PhysicianName'},
-    {label:'MRN',value:'MRn'},
+    {label:'MRN',value:'MRN'},
     {label:'SampleId',value:'SampleId'},
-    {label:'OrderNumber',value:'OrderNumber'},
+    {label:'Order Number',value:'OrderNumber'},
     {label:'Status',value:'Status'},
   ]
-  const dateArray = ['Received','Collected','CreatedOn','UpdatedOn','Order']
+  const dateArray = ['Received','Collected','CreatedOn','UpdatedOn','Order','CollectionTime']
 
   const currentDate = new Date().toISOString();
 
@@ -59,10 +59,7 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
   }
 
   useEffect(()=>{
-    if(url == 'OrderMaster'){
-      if(sampleFilterId == "MRn"){
-        dispatch(getDetailsByMRN(`TestOrder/MRN/${editValue?.MRn}`))
-      }
+    if(url == 'TestOrder/getall'){
       setDetailsTableHeading(orderDetailsTableHeadings)
     }else{
       setDetailsTableHeading(SampleDetailsTableHeadings)
@@ -70,32 +67,33 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
   },[url,editValue])
 
   useEffect(() => {
-    if (pathologyResultDetailsList?.length || orderDetailsList?.length ) {
+    // if (testResultsList?.length || orderDetailsList?.length ) {
       let filterby ;
-      if(url == 'OrderMaster'){
-        filterby = orderDetailsList;
-      }else{
-        filterby = pathologyResultDetailsList;
-      }
+      // if(url == 'OrderMaster'){
+      //   filterby = orderDetailsList;
+      // }else{
+      //   filterby = testResultsList;
+      // }
       let data;
       if( sampleFilterId == 'MRN'){
-        data = filterby.filter((item, i) => item.MRN == editValue.MRN)
+        data = filterby?.filter((item, i) => item.MRN == editValue.MRN)
       }
       else if( sampleFilterId == 'MRn'){
         data = mrnDataList
       }
-      else if(url == "PathologyResultMaster"){
-        data = filterby.filter((item, i) => item.PathologyResultMasterId== editValue.Id)
-      }else if(url == "OrderMaster"){
-        data = filterby.filter((item, i) => item.OrderMasterID == editValue.Id)
+      else if(url == "TestResult"){
+        data = editValue?.PathologyDetails;
+      }
+      else if(url == "TestOrder/getall"){
+        data = editValue?.OrderDetails;
       }
       else{
-        data = filterby.filter((item, i) => item.OrderDetails == editValue.SampleId)
+        data = filterby?.filter((item, i) => item.OrderDetails == editValue.SampleId)
       }
       setDetailsList(data)
       setLoading(false)
-    }
-  }, [pathologyResultDetailsList,editValue,sampleFilterId,orderDetailsList,mrnDataList])
+    // }
+  }, [testResultsList,editValue,sampleFilterId,mrnDataList])
 
   const Close = () => {
     setOpenDetailsModal(false)
@@ -118,8 +116,8 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
             </Box>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'justify', padding: '0 20px', mt: 2 }}>
                             <Card sx={{ width: '100%', margin: '0 auto', my: 0,mb:2, p: 2,display:'flex',justifyContent:'space-between',flexWrap:'wrap' }}>
-                            { url == 'OrderMaster' ?
-                            orderDetailsData.map((item, i) => (
+                            { url == 'TestOrder/getall' ?
+                            orderDetailsData?.map((item, i) => (
                                 <Stack key={i}  direction={'row'} gap={1} sx={{ 
                                   width:'50%',
                                   textAlign: 'justify',
@@ -131,7 +129,7 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                                     <Typography sx={{ fontSize: '14px', fontWeight: 'bold', width: '120px',color:'#666' }}>{item.label}</Typography> :
                                     {dateArray.includes(item.label) ? 
                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
-                                       { `${editValue[item.value] || DateConvertion(currentDate)}`}
+                                       { `${editValue[item.value] || "-"}`}
                                     </Typography> :
                                     item.label == "Sample ID" ?
                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
@@ -147,7 +145,7 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                                     }
                                 </Stack>
                             )) :
-                            detailsData.map((item, i) => (
+                            detailsData?.map((item, i) => (
                                 <Stack key={i}  direction={'row'} gap={1} sx={{ 
                                   width:'50%',
                                   textAlign: 'justify',
@@ -183,7 +181,7 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                       <TableRow>
-                        {detailsTableHeading.map((column) => (
+                        {detailsTableHeading?.map((column) => (
                           <TableCell
                             key={column.id}
                             sx={{ color: 'black',fontWeight:'bold',backgroundColor:'lightgray' }}
@@ -202,7 +200,7 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                         </TableRow>
                       ) : (
 
-                        detailsList.map((row, rowId) => {
+                        detailsList?.map((row, rowId) => {
                           return (
                             <TableRow hover
                               key={row.id}>
@@ -229,7 +227,6 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                           );
                         })
                       )}
-
                     </TableBody>
                   </Table>
                 </TableContainer>

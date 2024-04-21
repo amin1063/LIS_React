@@ -1,5 +1,5 @@
 import { DeleteData, GetData, PostData, UpdateData } from "../../fetchServices";
-import { DATA_LOADER, ERROR_ALERT, FETCH_FAIL, GET_ANALYZERS, GET_ANALYZERS_PARAMETER, GET_COMBINED_ORDER, GET_CPT, GET_HIS, GET_HIS_ANALYZER, GET_HOSPITALS, GET_LISCODE, INFO_ALERT, SUCCESS_ALERT } from "../ActionTypes";
+import { DATA_LOADER, ERROR_ALERT, FETCH_FAIL, GET_ANALYZERS, GET_ANALYZERS_PARAMETER, GET_COMBINED_ORDER, GET_CPT, GET_HIS, GET_HIS_ANALYZER, GET_HOSPITALS, GET_LISCODE, GET_TEST_ORDER_ALL, GET_TEST_RESULTS, INFO_ALERT, SUCCESS_ALERT } from "../ActionTypes";
 
 export const getAnalyzers = (url) => async (dispatch) => {
     // dispatch({
@@ -141,6 +141,49 @@ export const getTestOrder = (url) => async (dispatch) => {
       if(response.status === 200 ){
         dispatch({
           type: GET_COMBINED_ORDER,
+          payload: response.data,
+        });
+      }else if(response.response.status === 500){
+        dispatch({
+          type: ERROR_ALERT,
+          payload: response.message,
+        });
+      }
+    } catch (error) {
+      console.log("err",error);
+    }
+};
+
+export const getTestOrderAll = (url) => async (dispatch) => {
+    dispatch({
+        type: DATA_LOADER,
+      });
+    try {
+      const response = await GetData(url);
+      if(response.status === 200 ){
+        dispatch({
+          type: GET_TEST_ORDER_ALL,
+          payload: response.data,
+        });
+      }else if(response.response.status === 500){
+        dispatch({
+          type: ERROR_ALERT,
+          payload: response.message,
+        });
+      }
+    } catch (error) {
+      console.log("err",error);
+    }
+};
+export const getTestResults = (url) => async (dispatch) => {
+    dispatch({
+        type: DATA_LOADER,
+      });
+    try {
+      const response = await GetData(url);
+      if(response.status === 200 ){
+        dispatch({
+          type: GET_TEST_RESULTS,
           payload: response.data,
         });
       }else if(response.response.status === 500){

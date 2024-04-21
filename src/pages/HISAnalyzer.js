@@ -39,6 +39,7 @@ const HISAnalyzer = () => {
         hospitalList={hospitalList}
         showColor={true}
         analyzerDropDown={true}
+        refresh={refresh}
         handleRefresh={handleRefresh}
       />
     </>
