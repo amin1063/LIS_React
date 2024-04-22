@@ -6,11 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SampleDetailsTableHeadings, orderDetailsTableHeadings } from '../../configData';
 import { getDetailsByMRN } from '../../redux/actions/pathologyActions';
 
-const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,url }) => {
+const SampleIdDetailPopup = ({ detailsModalValue, editDataValue, sampleFilterId, url }) => {
   const [editValue, setEditValue] = editDataValue;
   const [openDetailsModal, setOpenDetailsModal] = detailsModalValue;
-  const [dataKeys, setDataKeys] = useState([])
-  const testResultsList =  useSelector((state) => state.servicesReducer.testResultsList);
+  const testResultsList = useSelector((state) => state.servicesReducer.testResultsList);
   const mrnDataList = useSelector((state) => state.pathologyReducer.mrnDataList);
   // const orderDetailsList =  useSelector((state) => state.invoiceOrderReducer.orderDetailsList);
   const [detailsList, setDetailsList] = useState([]);
@@ -19,31 +18,30 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
   const dispatch = useDispatch()
 
   const detailsData = [
-    {label:'Name',value:'PatientName'},
-    {label:'MRN',value:'PatientId'},
-    {label:'Received',value:'CreatedOn'},
-    {label:'Collected',value:'CollectionTime'},
+    { label: 'Name', value: 'PatientName' },
+    { label: 'MRN', value: 'PatientId' },
+    { label: 'Received', value: 'CreatedOn' },
+    { label: 'Collected', value: 'CollectionTime' },
     // {label:'Order',value:'Order'},
-    {label:'Sent',value:'IsSent'},
-    {label:'Sample ID',value:'SampleId'},
+    { label: 'Sent', value: 'IsSent' },
+    { label: 'Sample ID', value: 'SampleId' },
   ]
 
   const orderDetailsData = [
-    {label:'Name',value:'PatientName'},
-    {label:'Physician',value:'PhysicianName'},
-    {label:'MRN',value:'MRN'},
-    {label:'SampleId',value:'SampleId'},
-    {label:'Order Number',value:'OrderNumber'},
-    {label:'Status',value:'Status'},
+    { label: 'Name', value: 'PatientName' },
+    { label: 'Physician', value: 'PhysicianName' },
+    { label: 'MRN', value: 'MRN' },
+    { label: 'SampleId', value: 'SampleId' },
+    { label: 'Order Number', value: 'OrderNumber' },
+    { label: 'Status', value: 'Status' },
   ]
-  const dateArray = ['Received','Collected','CreatedOn','UpdatedOn','Order','CollectionTime']
-
+  const dateArray = ['Received', 'Collected', 'CreatedOn', 'UpdatedOn', 'Order', 'CollectionTime']
   const currentDate = new Date().toISOString();
 
   const DateConvertion = (myDate) => {
-      const utcDateTime = new Date(myDate);
-      const formattedDateTime = utcDateTime.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-      return formattedDateTime
+    const utcDateTime = new Date(myDate);
+    const formattedDateTime = utcDateTime.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    return formattedDateTime
   }
 
   const upperCase = (data) => {
@@ -52,48 +50,47 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
     }
   }
 
-
-  const checkAbnormalValue =(val)=>{
+  const checkAbnormalValue = (val) => {
     let check = val?.split('').includes('A')
     return check
   }
 
-  useEffect(()=>{
-    if(url == 'TestOrder/getall'){
+  useEffect(() => {
+    if (url == 'TestOrder/getall') {
       setDetailsTableHeading(orderDetailsTableHeadings)
-    }else{
+    } else {
       setDetailsTableHeading(SampleDetailsTableHeadings)
     }
-  },[url,editValue])
+  }, [url, editValue])
 
   useEffect(() => {
     // if (testResultsList?.length || orderDetailsList?.length ) {
-      let filterby ;
-      // if(url == 'OrderMaster'){
-      //   filterby = orderDetailsList;
-      // }else{
-      //   filterby = testResultsList;
-      // }
-      let data;
-      if( sampleFilterId == 'MRN'){
-        data = filterby?.filter((item, i) => item.MRN == editValue.MRN)
-      }
-      else if( sampleFilterId == 'MRn'){
-        data = mrnDataList
-      }
-      else if(url == "TestResult"){
-        data = editValue?.PathologyDetails;
-      }
-      else if(url == "TestOrder/getall"){
-        data = editValue?.OrderDetails;
-      }
-      else{
-        data = filterby?.filter((item, i) => item.OrderDetails == editValue.SampleId)
-      }
-      setDetailsList(data)
-      setLoading(false)
+    let filterby;
+    // if(url == 'OrderMaster'){
+    //   filterby = orderDetailsList;
+    // }else{
+    //   filterby = testResultsList;
     // }
-  }, [testResultsList,editValue,sampleFilterId,mrnDataList])
+    let data;
+    // if( sampleFilterId == 'MRN'){
+    //   data = filterby?.filter((item, i) => item.MRN == editValue.MRN)
+    // }
+    // else if( sampleFilterId == 'MRn'){
+    //   data = mrnDataList
+    // }
+    if (url == "TestResult") {
+      data = editValue?.PathologyDetails;
+    }
+    else if (url == "TestOrder/getall") {
+      data = editValue?.OrderDetails;
+    }
+    else {
+      data = filterby?.filter((item, i) => item.OrderDetails == editValue.SampleId)
+    }
+    setDetailsList(data)
+    setLoading(false)
+    // }
+  }, [testResultsList, editValue, sampleFilterId, mrnDataList])
 
   const Close = () => {
     setOpenDetailsModal(false)
@@ -104,78 +101,78 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
       <Modal
         open={openDetailsModal}
         onClose={Close}
-        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center',maxWidth:'60vw',margin:'0 auto' }}
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: '60vw', margin: '0 auto' }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
           <Card sx={{ position: 'relative', backgroundColor: '#f5f5f5', pb: '5px', minWidth: '40%', maxHeight: '90vh', borderRadius: '20px', overflowY: 'scroll', textAlign: 'center', border: '1px solid black', boxShadow: '1px 2px 15px black' }}>
             <Typography sx={{ fontSize: '25px', textAlign: 'center', padding: '5px', fontWeight: 'bold', color: 'white', backgroundColor: 'gray' }}>Details</Typography>
             <Box sx={{ position: 'absolute', top: '4px', right: '5px' }}>
-              <IconButton onClick={Close} sx={{ color: '#ffffff', backgroundColor: 'black',p:1 }}>
+              <IconButton onClick={Close} sx={{ color: '#ffffff', backgroundColor: 'black', p: 1 }}>
                 <CloseIcon fontSize='small' />
               </IconButton>
             </Box>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'justify', padding: '0 20px', mt: 2 }}>
-                            <Card sx={{ width: '100%', margin: '0 auto', my: 0,mb:2, p: 2,display:'flex',justifyContent:'space-between',flexWrap:'wrap' }}>
-                            { url == 'TestOrder/getall' ?
-                            orderDetailsData?.map((item, i) => (
-                                <Stack key={i}  direction={'row'} gap={1} sx={{ 
-                                  width:'50%',
-                                  textAlign: 'justify',
-                                  // backgroundColor: item.label == 'Name'? 'black': item.label == 'MRN'?'black':'white',
-                                  // color: item.label == 'Name'? 'white': item.label == 'MRN'?'white':'black',
-                                  // padding: item.label == 'Name'? '3px': item.label == 'MRN' ? '3px':'0px',
-                                  }}
-                                  >
-                                    <Typography sx={{ fontSize: '14px', fontWeight: 'bold', width: '120px',color:'#666' }}>{item.label}</Typography> :
-                                    {dateArray.includes(item.label) ? 
-                                    <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
-                                       { `${editValue[item.value] || "-"}`}
-                                    </Typography> :
-                                    item.label == "Sample ID" ?
-                                    <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
-                                       { `${editValue[item.value] || editValue['SampleID'] || '-'}`}
-                                    </Typography>
-                                    :
-                                    item.label == "Sent" ?
-                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>{editValue[item.value] == true ? "Yes":"No" || '-'}</Typography> :
+              <Card sx={{ width: '100%', margin: '0 auto', my: 0, mb: 2, p: 2, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+                {url == 'TestOrder/getall' ?
+                  orderDetailsData?.map((item, i) => (
+                    <Stack key={i} direction={'row'} gap={1} sx={{
+                      width: '50%',
+                      textAlign: 'justify',
+                      // backgroundColor: item.label == 'Name'? 'black': item.label == 'MRN'?'black':'white',
+                      // color: item.label == 'Name'? 'white': item.label == 'MRN'?'white':'black',
+                      // padding: item.label == 'Name'? '3px': item.label == 'MRN' ? '3px':'0px',
+                    }}
+                    >
+                      <Typography sx={{ fontSize: '14px', fontWeight: 'bold', width: '120px', color: '#666' }}>{item.label}</Typography> :
+                      {dateArray.includes(item.label) ?
+                        <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1, color: '#444' }}>
+                          {`${editValue[item.value] || "-"}`}
+                        </Typography> :
+                        item.label == "Sample ID" ?
+                          <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1, color: '#444' }}>
+                            {`${editValue[item.value] || editValue['SampleID'] || '-'}`}
+                          </Typography>
+                          :
+                          item.label == "Sent" ?
+                            <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1, color: '#444' }}>{editValue[item.value] == true ? "Yes" : "No" || '-'}</Typography> :
 
-                                    <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
-                                       { `${editValue[item.value] || '-'}`}
-                                    </Typography>
-                                    }
-                                </Stack>
-                            )) :
-                            detailsData?.map((item, i) => (
-                                <Stack key={i}  direction={'row'} gap={1} sx={{ 
-                                  width:'50%',
-                                  textAlign: 'justify',
-                                  // backgroundColor: item.label == 'Name'? 'black': item.label == 'MRN'?'black':'white',
-                                  // color: item.label == 'Name'? 'white': item.label == 'MRN'?'white':'black',
-                                  // padding: item.label == 'Name'? '3px': item.label == 'MRN' ? '3px':'0px',
-                                  }}
-                                  >
-                                    <Typography sx={{ fontSize: '14px', fontWeight: 'bold', width: '120px',color:'#666' }}>{item.label}</Typography> :
-                                    {dateArray.includes(item.label) ? 
-                                    <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
-                                       { `${editValue[item.value] || DateConvertion(currentDate)}`}
-                                    </Typography> :
-                                    item.label == "Sample ID" ?
-                                    <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
-                                       { `${editValue[item.value] || editValue['SampleID'] || '-'}`}
-                                    </Typography>
-                                    :
-                                    item.label == "Sent" ?
-                                     <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>{editValue[item.value] == true ? "Yes":"No" || '-'}</Typography> :
+                            <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1, color: '#444' }}>
+                              {`${editValue[item.value] || '-'}`}
+                            </Typography>
+                      }
+                    </Stack>
+                  )) :
+                  detailsData?.map((item, i) => (
+                    <Stack key={i} direction={'row'} gap={1} sx={{
+                      width: '50%',
+                      textAlign: 'justify',
+                      // backgroundColor: item.label == 'Name'? 'black': item.label == 'MRN'?'black':'white',
+                      // color: item.label == 'Name'? 'white': item.label == 'MRN'?'white':'black',
+                      // padding: item.label == 'Name'? '3px': item.label == 'MRN' ? '3px':'0px',
+                    }}
+                    >
+                      <Typography sx={{ fontSize: '14px', fontWeight: 'bold', width: '120px', color: '#666' }}>{item.label}</Typography> :
+                      {dateArray.includes(item.label) ?
+                        <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1, color: '#444' }}>
+                          {`${editValue[item.value] || DateConvertion(currentDate)}`}
+                        </Typography> :
+                        item.label == "Sample ID" ?
+                          <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1, color: '#444' }}>
+                            {`${editValue[item.value] || editValue['SampleID'] || '-'}`}
+                          </Typography>
+                          :
+                          item.label == "Sent" ?
+                            <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1, color: '#444' }}>{editValue[item.value] == true ? "Yes" : "No" || '-'}</Typography> :
 
-                                    <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1,color:'#444' }}>
-                                       { `${editValue[item.value] || '-'}`}
-                                    </Typography>
-                                    }
-                                </Stack>
-                            ))
-                          }
+                            <Typography sx={{ fontSize: '14px', fontWeight: '600', ml: 1, color: '#444' }}>
+                              {`${editValue[item.value] || '-'}`}
+                            </Typography>
+                      }
+                    </Stack>
+                  ))
+                }
 
-                        </Card>
+              </Card>
               <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                   <Table stickyHeader aria-label="sticky table">
@@ -184,7 +181,7 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                         {detailsTableHeading?.map((column) => (
                           <TableCell
                             key={column.id}
-                            sx={{ color: 'black',fontWeight:'bold',backgroundColor:'lightgray' }}
+                            sx={{ color: 'black', fontWeight: 'bold', backgroundColor: 'lightgray' }}
                           >
                             {column.label}
                           </TableCell>
@@ -212,12 +209,12 @@ const SampleIdDetailPopup = ({ detailsModalValue, editDataValue,sampleFilterId,u
                                       {rowId + 1}
                                     </TableCell>
                                   )
-                                } 
-                                
+                                }
+
                                 else {
                                   return (
-                                    <TableCell key={column.id} sx={{fontWeight: checkAbnormalValue(row?.AbnormalFlag) ? 'bold':'normal'}} >
-                                    {/* <TableCell key={column.id} sx={{fontWeight: ["A","H~A"].includes(row?.AbnormalFlag) ? 'bold':'normal'}} > */}
+                                    <TableCell key={column.id} sx={{ fontWeight: checkAbnormalValue(row?.AbnormalFlag) ? 'bold' : 'normal' }} >
+                                      {/* <TableCell key={column.id} sx={{fontWeight: ["A","H~A"].includes(row?.AbnormalFlag) ? 'bold':'normal'}} > */}
                                       {value || '-'}
                                     </TableCell>
                                   );

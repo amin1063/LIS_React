@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { addDataAction, updateDataAction } from '../../redux/actions/servicesActions';
 import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
 
-const HISAnalyzerDialog = ({ modalValue, editDataValue, url, analyzerMenuOptions, hisMenuOptions, rerender,selectedAnalyzer,selectedHis,refreshMapping }) => {
+const HISAnalyzerDialog = ({ modalValue, editDataValue, url, analyzerMenuOptions, hisMenuOptions, rerender,selectedAnalyzer,selectedHis }) => {
 
     const dispatch = useDispatch();
     const [editValue, setEditValue] = editDataValue;
@@ -147,12 +147,10 @@ const HISAnalyzerDialog = ({ modalValue, editDataValue, url, analyzerMenuOptions
             // }
             dispatch(updateDataAction(url, editValue.Id, data, rerender))
             Close()
-            refreshMapping()
             reset()
         } else {
             dispatch(addDataAction(url, addData, rerender))
             Close()
-            refreshMapping()
             reset()
         }
     }
